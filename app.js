@@ -23,6 +23,11 @@ var allowCors = function(req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// Bootstrap e JQuery
+app.use('/javascript', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use('/javascript', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/stylesheet', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(allowCors);

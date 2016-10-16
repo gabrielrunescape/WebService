@@ -1,5 +1,72 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    nav(class='nav navbar-inverse navbar-fixed-top')
+        .container
+            .navbar-header
+                a(class='navbar-brand' href='/') WebService - API
+
+    .container
+        h1 REST API
+        p Bem-vindo à pagina da #[a(href='/') REST API]. Aqui você pode obter todos os dados de acordo com a API para uso interno das informações necessárias para qual você deseja trabalhar.
+        p A API foi desenvolvida através da #[em screencast] #[a(href='https://youtu.be/jvNDM5e7TFo') Aprenda - em pouco mais de 1 hora - a desenvolver web service RESTful com NodeJS e Mongodb] de Fábio Vedovelli.
+
+        h2.sub-header Escolha o método e categoria a ser vista
+
+        .table-responsive
+            table(class='table table-striped')
+                thead
+                    tr
+                        th Metódo
+                        th URL
+                        th Descrição
+                        th Link
+                tbody
+                    tr
+                        td GET
+                        td /users
+                        td Busca todos os usuários
+                        td
+                            a(class='label label-success' href='/api/get') GET
+                    tr
+                        td GET
+                        td /users/:id
+                        td Busca determinado usuário com ID informada
+                        td
+                            a(class='label label-success' href='/api/get') GET
+                    tr
+                        td POST
+                        td /users
+                        td Cria um novo usuário
+                        td
+                            a(class='label label-warning' href='/api/post') POST
+                    tr
+                        td PUT
+                        td /users/:id
+                        td Altera um usuário através da ID informada
+                        td
+                            a(class='label label-primary' href='/api/put') PUT
+                    tr
+                        td DELETE
+                        td /users/:id
+                        td Apaga um usuário pela ID
+                        td
+                            a(class='label label-danger' href='/api/delete') DELETE
+
+        h3 Instalação
+        p Caso queira realizar alguma contribuição com o projeto, pode realizar o clone atraves do seguinte comando: #[br]
+            code git clone https://github.com/gabrielrunescape/WebService.git
+
+        p Alguns ajustes iniciais são necessários serem realizados antes de iniciar o projeto: #[br]
+            code cd WebService #[br]
+            code npm install #[br]
+            code node app.js
+
+        p Se preferir usar o #[em nodemon] ao invés do clássico #[em node], utilize esta linha de comando: #[br]
+            code nodemon appp.js
+
+        p Lembrando que, você deve ter instalado o MongoDB e alterar o endereço de acesso no arquivo #[code db_config.js].
+
+    footer.blog-footer
+        p Tema do #[a(href='/') WebService] criado por #[a(href='https://github.com/GabrielRuneScape/') GabrielRuneScape]
+        p #[a(href='#') Voltar ao topo]
