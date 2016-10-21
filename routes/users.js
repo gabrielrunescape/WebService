@@ -7,16 +7,16 @@ var usuarioController = require('../controller/usuario.js');
 router.get('/', function(req, res, next) {
     usuarioController.list(function(resp) {
         res.json(resp);
-    })
+    });
 });
 
-router.get('/:id', function(req, res, next) {
-    var id = validator.trim(validator.escape(req.param('id')));
+router.post('/:login/:senha', function(req, res, next) {
+    var login = validator.trim(validator.escape(req.params.login));
+    var senha = validator.trim(validator.escape(req.params.senha));
 
-    usuarioController.usuario(id, function(resp) {
-        res.json(resp)
-    })
-
+    usuarioController.usuario(login, senha, function(resp) {
+        res.json(resp);
+    });
 });
 
 router.post('/', function(req, res, next) {
@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
 
     usuarioController.save(login, senha, email, function(resp) {
         res.json(resp);
-    })
+    });
 });
 
 router.put('/', function(req, res, next) {
@@ -37,7 +37,7 @@ router.put('/', function(req, res, next) {
 
     usuarioController.update(id, login, senha, email, function(resp) {
         res.json(resp);
-    })
+    });
 });
 
 router.delete('/:id', function(req, res, next) {

@@ -14,10 +14,28 @@ exports.usuario = function(id, callback) {
     });
 };
 
+exports.usuario = function(login, senha, callback) {
+    db.Usuario.findOne({"login": login}, function(err, usr) {
+        if (err) {
+            callback({error: 'Não foi possível encontrar o usuário!'})
+        } else {
+            if (usr == null) {
+                callback({response: 'Nenhum usuário encontrado!'});
+            } else {
+                if (senha == usr.senha) {
+                    callback(usr);
+                } else {
+                    callback({response: 'Senha inválida!'});
+                }
+            }
+        }
+    });
+};
+
 exports.list    = function(callback) {
     db.Usuario.find({}, function(err, usr) {
         if (err) {
-            callback({error: 'Não foi possível encontrar os usuários!'})
+            callback({error: 'Não foi possível encontrar os usuários!'});
         } else {
             callback(usr);
         }
