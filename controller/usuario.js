@@ -1,4 +1,5 @@
-var db = require('../db_config.js');
+var db     = require('../db_config.js');
+var bcrypt = require('bcryptjs');
 
 exports.usuario = function(id, callback) {
     db.Usuario.findById(id, function(err, usr) {
@@ -22,11 +23,17 @@ exports.usuario = function(login, senha, callback) {
             if (usr == null) {
                 callback({response: 'Nenhum usuário encontrado!'});
             } else {
-                if (senha == usr.senha) {
-                    callback(usr);
-                } else {
-                    callback({response: 'Senha inválida!'});
-                }
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(senha, salt, function(err, hash) {
+            	        senha = hash;
+
+                        if (senha == usr.senha) {
+                            callback(usr);
+                        } else {
+                            callback({response: 'Senha inválida!'});
+                        }
+                    });
+                });
             }
         }
     });
@@ -43,17 +50,21 @@ exports.list    = function(callback) {
 };
 
 exports.save    = function(login, senha, email, callback) {
-    new db.Usuario({
-        login: login,
-        senha: senha,
-        email: email,
-        Data_Criacao: new Date()
-    }).save(function(err, usr) {
-        if (err) {
-            callback({error: 'Não foi possível salvar o usuário!'})
-        } else {
-            callback(usr);
-        }
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(senha, salt, function(err, hash) {
+            new db.Usuario({
+                login: login,
+                senha: hash,
+                email: email,
+                Data_Criacao: new Date()
+            }).save(function(err, usr) {
+                if (err) {
+                    callback({error: 'Não foi possível salvar o usuário!'})
+                } else {
+                    callback(usr);
+                }
+            });
+        });
     });
 };
 
@@ -64,7 +75,11 @@ exports.update  = function(id, login, senha, email, callback) {
         }
 
         if (senha) {
-            usr.senha = senha;
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(senha, salt, function(err, hash) {
+                    usr.senha = hash;
+                });
+            });
         }
 
         if (email) {
