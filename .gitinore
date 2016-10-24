@@ -18,7 +18,7 @@ coverage
 # nyc test coverage
 .nyc_output
 
-# Grunt intermediate storage 
+# Grunt intermediate storage
 (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -29,7 +29,7 @@ coverage
 build/Release
 
 # Dependency directories
-node_modules
+node_modules/*
 jspm_packages
 
 # Optional npm cache directory

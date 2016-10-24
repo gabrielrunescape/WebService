@@ -20,28 +20,32 @@ router.post('/:login/:senha', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+    var nome  = validator.trim(validator.escape(req.param('nome')));
+    var sexo  = validator.trim(validator.escape(req.param('sexo')));
     var login = validator.trim(validator.escape(req.param('login')));
     var senha = validator.trim(validator.escape(req.param('senha')));
     var email = validator.trim(validator.escape(req.param('email')));
 
-    usuarioController.save(login, senha, email, function(resp) {
+    usuarioController.save(nome, email, login, sexo, senha, function(resp) {
         res.json(resp);
     });
 });
 
 router.put('/', function(req, res, next) {
-    var id    = validator.trim(validator.escape(req.param('id')));
+    var id    = validator.trim(validator.escape(req.param('id') + ''));
+    var nome  = validator.trim(validator.escape(req.param('nome')));
+    var sexo  = validator.trim(validator.escape(req.param('sexo')));
     var login = validator.trim(validator.escape(req.param('login')));
     var senha = validator.trim(validator.escape(req.param('senha')));
     var email = validator.trim(validator.escape(req.param('email')));
 
-    usuarioController.update(id, login, senha, email, function(resp) {
+    usuarioController.update(id, nome, email, login, sexo, senha, function(resp) {
         res.json(resp);
     });
 });
 
 router.delete('/:id', function(req, res, next) {
-    var id = validator.trim(validator.escape(req.params.id));
+    var id = validator.trim(validator.escape(req.param('id') + ''));
 
     usuarioController.delete(id, function(resp) {
         res.json(resp);

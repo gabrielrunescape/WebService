@@ -1,111 +1,116 @@
-var db     = require('../db_config.js');
+var mysql  = require('../db_config.js');
 var bcrypt = require('bcryptjs');
 
 exports.usuario = function(id, callback) {
-    db.Usuario.findById(id, function(err, usr) {
+    mysql.query("SELECT * FROM Usuario WHERE Login = ?", login, function(err, usr) {
         if (err) {
-            callback({error: 'Não foi possível encontrar o usuário!'})
+            callback({error: err});;
         } else {
             if (usr == null) {
                 callback({response: 'Nenhum usuário encontrado!'});
             } else {
                 callback(usr);
-            }
-        }
-    });
+            } // close if usr is null
+        } // close if err
+    }); // close mysql.query
 };
 
 exports.usuario = function(login, senha, callback) {
-    db.Usuario.findOne({"login": login}, function(err, usr) {
+    mysql.query("SELECT * FROM Usuario WHERE Login = ?", login, function(err, usr) {
         if (err) {
-            callback({error: 'Não foi possível encontrar o usuário!'})
+            callback({error: err});
         } else {
             if (usr == null) {
                 callback({response: 'Nenhum usuário encontrado!'});
             } else {
-                bcrypt.genSalt(10, function(err, salt) {
-                    bcrypt.hash(senha, salt, function(err, hash) {
-            	        senha = hash;
+                bcrypt.compare(senha, usr[0].Senha, function(err, hash) {
+                    if (err) callback({error: err});
 
-                        if (senha == usr.senha) {
-                            callback(usr);
-                        } else {
-                            callback({response: 'Senha inválida!'});
-                        }
-                    });
-                });
-            }
-        }
-    });
+                    if (hash == true) {
+                        callback(usr);
+                    } else {
+                        callback({response: 'Senha inválida!'});
+                    } // close hash is true
+                }); // close bcrypt.compare
+            } // close if usr is null
+        } // close if err
+    }); // close mysql.query
 };
 
 exports.list    = function(callback) {
-    db.Usuario.find({}, function(err, usr) {
+    mysql.query("SELECT * FROM Usuario", function(err, usr) {
         if (err) {
-            callback({error: 'Não foi possível encontrar os usuários!'});
+            callback({error: err});
         } else {
             callback(usr);
-        }
-    });
+        } // close if err
+    }); // close mysql.query
 };
 
-exports.save    = function(login, senha, email, callback) {
+exports.save    = function(nome, email, login, sexo, senha, callback) {
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(senha, salt, function(err, hash) {
-            new db.Usuario({
-                login: login,
-                senha: hash,
-                email: email,
+            var usuario = {
+                ID: 'NULL',
+                Nome: nome,
+                Login: login,
+                Sexo: sexo,
+                Senha: hash,
+                Email: email,
                 Data_Criacao: new Date()
-            }).save(function(err, usr) {
+            };
+
+            mysql.query("INSERT INTO Usuario SET ?", usuario, function(err, res) {
                 if (err) {
-                    callback({error: 'Não foi possível salvar o usuário!'})
+                    callback({error: err});
                 } else {
-                    callback(usr);
-                }
-            });
-        });
-    });
+                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", res.insertId, function(error, usr) {
+                        if (error) {
+                            callback({error: error});
+                        } else {
+                            callback(usr);
+                        } // close if error
+                    }); // close mysql.query
+                } // close if err
+            }); // close mysql.query
+        }); // Close bcrypt.hash
+    }); // Close bcrypt.genSalt
 };
 
-exports.update  = function(id, login, senha, email, callback) {
-    db.Usuario.findById(id, function(err, usr){
-        if (login) {
-            usr.login = login;
-        }
+exports.update  = function(id, nome, email, login, sexo, senha, callback) {
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(senha, salt, function(err, hash) {
+            var usuario = {
+                Nome: nome,
+                Login: login,
+                Sexo: sexo,
+                Senha: hash,
+                Email: email
+            };
 
-        if (senha) {
-            bcrypt.genSalt(10, function(err, salt) {
-                bcrypt.hash(senha, salt, function(err, hash) {
-                    usr.senha = hash;
-                });
-            });
-        }
-
-        if (email) {
-            usr.email = email;
-        }
-
-        usr.save(function(err, usr) {
-            if (err) {
-                callback({error: 'Não foi possível modificar o usuário!'})
-            } else {
-                callback(usr);
-            }
-        });
-    });
+            mysql.query("UPDATE Usuario SET ? WHERE ID = " + id, usuario, function(err, res) {
+                if (err) {
+                    callback({error: 'Não foi possível modificar o usuário!'});
+                } else {
+                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(error, usr) {
+                        if (error) {
+                            callback({error: error});
+                        } else {
+                            callback(usr);
+                        } // close if error
+                    }); // close mysql.query
+                } // close if err
+            }); // close mysql.query
+        }); // close bcrypt.hash
+    }); // close bcrypt.genSalt
 };
 
 exports.delete  = function(id, callback) {
-    db.Usuario.findById(id, function(err, usr) {
+    mysql.query("DELETE FROM Usuario WHERE ID = ?", id, function(err, res) {
         if (err) {
             callback({error: 'Não foi possível encontrar o usuário!'});
         } else {
-            usr.remove(function(err) {
-                if (!err) {
-                    callback({response: 'Usuário excluído com sucesso!'});
-                }
-            })
-        }
-    });
+            callback({response: 'Usuário excluído com sucesso!'});
+        } // close if err
+    }); // mysql.query
 };

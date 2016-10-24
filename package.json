@@ -16,6 +16,7 @@
     "jquery": "^3.1.1",
     "mongoose": "^4.6.3",
     "morgan": "~1.7.0",
+    "mysql": "github:mysqljs/mysql",
     "nodemon": "^1.11.0",
     "serve-favicon": "~2.3.0",
     "validator": "^6.1.0"
