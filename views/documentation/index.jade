@@ -1,0 +1,83 @@
+extends layout
+
+block content
+    .container
+        .blog-header
+            h1(class="blog-title")  WebService REST API
+            p(class="lead blog-description") Documentação da API do WebService
+
+        .row
+            div(class="col-sm-2 blog-sidebar")
+                .sidebar-module
+                    h4 Introdução
+                    ol(class="list-unstyled")
+                        li #[a(href="#") Introdução]
+                        li #[a(href="#ideia") Ideia]
+                        li #[a(href="#recursos") Recursos]
+                        li #[a(href="#utilizacao") Utilização]
+
+                    h4 Métodos
+                    ol(class="list-unstyled")
+                        li #[a(href="documentation/delete") DELETE]
+                        li #[a(href="documentation/get") GET]
+                        li #[a(href="documentation/post") POST]
+                        li #[a(href="documentation/put") PUT]
+
+                    h4 Métodos
+                    ol(class="list-unstyled")
+                        li #[a(href="documentation/usuarios") Usuarios]
+
+            div(class="col-sm-10 blog-main")
+                h1 REST API
+                p Bem-vindo à pagina da #[a(href='/') REST API]. Aqui você pode obter todos os dados de acordo com a API para uso interno das informações necessárias para qual você deseja trabalhar.
+                p A API foi desenvolvida através da #[em screencast] #[a(href='https://youtu.be/jvNDM5e7TFo') Aprenda - em pouco mais de 1 hora - a desenvolver web service RESTful com NodeJS e Mongodb] de Fábio Vedovelli. <br />
+                br
+
+                h2(id="ideia" class="sub-header") Escolha o método e categoria a ser vista
+
+                .table-responsive
+                    table(class='table table-striped')
+                        thead
+                            tr
+                                th Metódo
+                                th URL
+                                th Descrição
+                                th Link
+                        tbody
+                            tr
+                                td GET
+                                td /users
+                                td Busca todos os usuários
+                                td
+                                    a(class='label label-success' href='/api/get') GET
+                            tr
+                                td GET
+                                td /users/:login/:senha
+                                td Busca determinado usuário com ID informada
+                                td
+                                    a(class='label label-success' href='/api/get') GET
+                br
+
+                h2(id="recursos" class="sub-header") Recursos
+                p Caso queira realizar alguma contribuição com o projeto, pode realizar o clone atraves do seguinte comando: #[br]
+                    code git clone https://github.com/gabrielrunescape/WebService.git
+
+                p Alguns ajustes iniciais são necessários serem realizados antes de iniciar o projeto: #[br]
+                    code cd WebService #[br]
+                    code npm install #[br]
+                    code node app.js
+
+                p Se preferir usar o #[em nodemon] ao invés do clássico #[em node], utilize esta linha de comando: #[br]
+                    code nodemon appp.js
+
+                p Lembrando que, você deve ter instalado o MariaDB(MySQL) e alterar o endereço de acesso no arquivo #[code db_config.js].
+                br
+
+                h2(id="utilizacao" class="sub-header") Utilização
+                p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
+                p Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.
+                br
+    footer.blog-footer
+        p Tema do #[a(href='/') WebService] criado por #[a(href='https://github.com/GabrielRuneScape/') GabrielRuneScape]
+        p #[a(href='#') Voltar ao topo]
