@@ -30,7 +30,7 @@ block content
                             a(class='label label-success' href='/api/get') GET
                     tr
                         td GET
-                        td /users/:id
+                        td /users/:login/:senha
                         td Busca determinado usuário com ID informada
                         td
                             a(class='label label-success' href='/api/get') GET
@@ -65,7 +65,7 @@ block content
         p Se preferir usar o #[em nodemon] ao invés do clássico #[em node], utilize esta linha de comando: #[br]
             code nodemon appp.js
 
-        p Lembrando que, você deve ter instalado o MongoDB e alterar o endereço de acesso no arquivo #[code db_config.js].
+        p Lembrando que, você deve ter instalado o MariaDB(MySQL) e alterar o endereço de acesso no arquivo #[code db_config.js].
 
     footer.blog-footer
         p Tema do #[a(href='/') WebService] criado por #[a(href='https://github.com/GabrielRuneScape/') GabrielRuneScape]
