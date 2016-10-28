@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    .container
-        .blog-header
-            h1(class="blog-title")  WebService REST API
-            p(class="lead blog-description") Documentação da API do WebService
+    header
+        .container
+            .blog-header
+                h1(class="blog-title")  WebService REST API
+                p(class="lead blog-description") Documentação da API do WebService
 
+    .container
         .row
             div(class="col-sm-2 blog-sidebar")
                 .sidebar-module
@@ -79,5 +81,26 @@ block content
                 p Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.
                 br
     footer.blog-footer
-        p Tema do #[a(href='/') WebService] criado por #[a(href='https://github.com/GabrielRuneScape/') GabrielRuneScape]
-        p #[a(href='#') Voltar ao topo]
+        .container
+            .row
+                .col-md-4
+                    h3(class="h4 type-npm-pastel-3") WebSites
+                    hr
+                    ul(class="list-unstyled h6 em-default")
+                        li item 1
+                        li item 2
+                        li item 3
+                .col-md-4
+                    h3(class="h4 type-npm-pastel-3") WebSites
+                    hr
+                    ul(class="list-unstyled h6 em-default")
+                        li item 1
+                        li item 2
+                        li item 3
+                .col-md-4
+                    h3(class="h4 type-npm-pastel-3") WebSites
+                    hr
+                    ul(class="list-unstyled h6 em-default")
+                        li item 1
+                        li item 2
+                        li item 3

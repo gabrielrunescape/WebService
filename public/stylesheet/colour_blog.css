@@ -1,0 +1,38 @@
+header {
+    background-color: #2C5E2E;
+}
+
+.blog-title {
+    color: #FFFFF1;
+    font-weight: bolder;
+}
+
+p.lead {
+    color: #DCFFE8;
+}
+
+.container > .row {
+    margin-top: 10px;
+}
+
+.blog-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #0C273D;
+}
+
+.type-npm-pastel-3 {
+    color: #a4bbd7 !important;
+}
+
+.divider-1 {
+    border: 1px solid #fff;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-width: 1px 0 0 0;
+}
+
+.pbl {
+    padding-bottom: 10px !important;
+    color: #FFFFFF;
+}
