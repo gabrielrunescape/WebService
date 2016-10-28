@@ -1,0 +1,123 @@
+/*  Override tags properties  */
+header {
+    background-color: #19882C;
+}
+
+p {
+    text-align: justify;
+    text-indent: 40px;
+}
+
+p > a {
+    color: #7dc48a;
+    text-decoration: none;
+}
+
+p > a:hover {
+    color: #19882C;
+    text-decoration: none;
+}
+
+code {
+    color: blue;
+    padding: 6px 10px;
+    border-radius: 0px;
+    background: #F5F5F5;
+}
+
+/*  Override Bootstrap's default container. */
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+/**  Top header properties  */
+.doc-title {
+    color: #FFFFF1;
+    margin-top: 30px;
+    margin-bottom: 0;
+    font-size: 60px;
+    font-weight: bolder;
+}
+
+.doc-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #FFFFF1;
+    font-weight: bolder;
+}
+
+.doc-description {
+  font-size: 20px;
+  color: #DCFFE8;
+}
+
+/*  Lateral menu properties */
+.sub-doc-header {
+    color: #1d571f;
+    min-height: 40px;
+    padding: 15px 10px;
+    background: #EEEFF1;
+    border-top: 2px solid #017B16;
+}
+
+.nav-list {
+    padding: 0px;
+    list-style: none;
+    text-align: left;
+    margin: -10px 0px 25px 0px;
+}
+
+.nav-list > .nav-item {
+    margin: 0;
+    list-style: none;
+    border-bottom: none;
+    padding: 6px 2px;
+    border-top: 1px solid #dfdfdf;
+}
+
+.nav-list > .nav-item + .nav-last-item {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.nav-item > a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.nav-item > a:hover {
+    color: #034811;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/*   Footer properties    */
+.doc-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #034811;
+}
+
+.type {
+    color: #7dc48a;
+    font-size: 1.6em;
+    font-weight: bold;
+    font-family: "open_sansbold", Arial, Helvetica, sans-serif;
+}
+
+.list-unstyled > li {
+    padding-bottom: 10px;
+}
+
+.list-unstyled > li > a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.list-unstyled > li > a:hover {
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: none;
+}
