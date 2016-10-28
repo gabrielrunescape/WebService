@@ -22,7 +22,7 @@ var allowCors = function(req, res, next) {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // Bootstrap e JQuery
 app.use('/javascript', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
