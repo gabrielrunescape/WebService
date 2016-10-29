@@ -1,11 +1,36 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheet/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheet/documentation.css')
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheet/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheet/documentation.css')
 
-    script(src='/javascript/jquery.min.js')
-    script(src='/javascript/bootstrap.min.js')
-  body
-    block content
+        script(src='/javascript/jquery.min.js')
+        script(src='/javascript/bootstrap.min.js')
+    body
+        block content
+
+        block rodape
+        footer.doc-footer
+            .container
+                .row
+                    .col-md-3
+                    .col-md-2
+                        h3(class="h4 type") WebSites
+                        ul(class="list-unstyled h5 em-default")
+                            li #[a(href="#") Enlance uno]
+                            li #[a(href="#") Enlance dos]
+                            li #[a(href="#") Enlance trés]
+                    .col-md-2
+                        h3(class="h4 type") WebSites
+                        ul(class="list-unstyled h5 em-default")
+                            li #[a(href="#") Enlance cuatro]
+                            li #[a(href="#") Enlance cinco]
+                            li #[a(href="#") Enlance ses]
+                    .col-md-2
+                        h3(class="h4 type") WebSites
+                        ul(class="list-unstyled h5 em-default")
+                            li #[a(href="#") Enlance siete]
+                            li #[a(href="#") Enlance ocho]
+                            li #[a(href="#") Enlance nueve]
+                    .col-md-3
