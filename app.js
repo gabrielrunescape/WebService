@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 
 var routes		  = require('./routes/index');
-var users		  = require('./routes/users');
+var usuarios	  = require('./routes/usuarios');
 var documentation = require('./routes/documentation');
 
 var app = express();
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define as rotas da aplicação
 app.use('/', routes);
-app.use('/users', users);
+app.use('/usuarios', usuarios);
 app.use('/documentation', documentation);
 
 // Porta da aplicação

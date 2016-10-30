@@ -18,19 +18,46 @@ exports.usuario = function(id, callback) {
 exports.usuario = function(login, senha, callback) {
     mysql.query("SELECT * FROM Usuario WHERE Login = ?", login, function(err, usr) {
         if (err) {
-            callback({error: err});
+            var response = {
+                response: 'login_fail',
+                message: 'Houve um erro ao realizar a consulta.',
+                error: err
+            }
+
+            callback(response);
         } else {
-            if (usr == null) {
-                callback({response: 'Nenhum usuário encontrado!'});
+            if (usr == null || typeof usr[0] == 'undefined') {
+                var response = {
+                    response: 'login_fail',
+                    message: 'Nenhum usuário foi encontrado!'
+                }
+
+                callback(response);
             } else {
                 bcrypt.compare(senha, usr[0].Senha, function(err, hash) {
-                    if (err) callback({error: err});
+                    var response = {};
+
+                    if (err) {
+                        response = {
+                            response: 'login_fail',
+                            message: 'Houve um erro ao comparar a criptografia.'
+                        }
+                    }
 
                     if (hash == true) {
-                        callback(usr);
+                        response = {
+                            response: 'login_ok',
+                            message: 'Usuário encontrado com sucesso!',
+                            usuario: usr[0]
+                        }
                     } else {
-                        callback({response: 'Senha inválida!'});
-                    } // close hash is true
+                        response = {
+                            response: 'login_fail',
+                            message: 'Senha inválida!'
+                        }
+                    }
+
+                    callback(response);
                 }); // close bcrypt.compare
             } // close if usr is null
         } // close if err
