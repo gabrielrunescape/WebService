@@ -116,15 +116,33 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
             };
 
             mysql.query("UPDATE Usuario SET ? WHERE ID = " + id, usuario, function(err, res) {
+                var response = {
+                    response: 'update_fail',
+                    message: 'Não foi possível modificar o usuário.',
+                    error: err
+                }
+
                 if (err) {
-                    callback({error: 'Não foi possível modificar o usuário!'});
+                    callback(response);
                 } else {
                     mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(error, usr) {
+                        var response = {};
+
                         if (error) {
-                            callback({error: error});
+                            response = {
+                                response: 'update_fail',
+                                message: 'Não foi possível modificar o usuário.',
+                                error: error
+                            }
                         } else {
-                            callback(usr);
-                        } // close if error
+                            response = {
+                                response: 'update_ok',
+                                message: 'Usuário alterado com sucesso!',
+                                usuario: usr[0]
+                            }
+                        }
+
+                        callback(response);
                     }); // close mysql.query
                 } // close if err
             }); // close mysql.query
@@ -134,10 +152,22 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
 
 exports.delete  = function(id, callback) {
     mysql.query("DELETE FROM Usuario WHERE ID = ?", id, function(err, res) {
+        var response = {};
+
         if (err) {
-            callback({error: 'Não foi possível encontrar o usuário!'});
+            response = {
+                response: 'delete_fail',
+                message: 'Não foi possível encontrar o usuário.',
+                error: err
+            }
         } else {
-            callback({response: 'Usuário excluído com sucesso!'});
-        } // close if err
+            response = {
+                response: 'delete_ok',
+                message: 'Usuário excluído com sucesso!',
+                error: res
+            }
+        }
+
+        callback(response);
     }); // mysql.query
 };
