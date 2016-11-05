@@ -7,6 +7,7 @@ var bodyParser   = require('body-parser');
 
 var routes		  = require('./routes/index');
 var usuarios	  = require('./routes/usuarios');
+var funcionarios  = require('./routes/funcionarios');
 var documentation = require('./routes/documentation');
 
 var app = express();
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Define as rotas da aplicação
 app.use('/', routes);
 app.use('/usuarios', usuarios);
+app.use('/funcionarios', funcionarios);
 app.use('/documentation', documentation);
 
 // Porta da aplicação
