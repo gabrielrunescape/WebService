@@ -6,6 +6,7 @@ var funcionarioController = require('../controller/funcionario.js');
 
 router.get('/', function(req, res, next) {
     funcionarioController.list(function(resp) {
+        res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });
@@ -48,6 +49,7 @@ router.post('/', function(req, res, next) {
     };
 
     funcionarioController.save(funcionario, function(resp) {
+        res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });
@@ -93,6 +95,7 @@ router.put('/', function(req, res, next) {
     };
 
     funcionarioController.update(id, funcionario, function(resp) {
+        res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });
@@ -101,6 +104,7 @@ router.delete('/', function(req, res, next) {
     var id = req.param('id');
 
     funcionarioController.delete(id, function(resp) {
+        res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });

@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'WebServive - API' });
+    res.header('Content-Type', 'text/html; charset=utf-8');
+    res.render('index', { title: 'WebServive - API' });
 });
 
 module.exports = router;
