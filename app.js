@@ -46,6 +46,7 @@ app.use('/funcionarios', funcionarios);
 app.use('/documentation', documentation);
 
 // Porta da aplicação
+// Colocar na porta 80 e iniciar com `sudo node app.js` durante a produção
 app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function(){

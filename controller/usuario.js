@@ -2,12 +2,19 @@ var mysql  = require('../db_config.js');
 var bcrypt = require('bcryptjs');
 
 exports.usuario = function(id, callback) {
-    mysql.query("SELECT * FROM Usuario WHERE Login = ?", login, function(err, usr) {
+    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(err, usr) {
         if (err) {
-            callback({error: err});;
+            callback({
+                response: 'query_fail',
+                message: 'Houve um erro ao realizar a consulta.',
+                error: err
+            });
         } else {
-            if (usr == null) {
-                callback({response: 'Nenhum usuário encontrado!'});
+            if (usr == null || typeof usr[0] == 'undefined') {
+                callback({
+                    response: 'query_fail',
+                    message: 'Nenhum usuário encontrado!'
+                });
             } else {
                 callback(usr);
             } // close if usr is null
@@ -16,7 +23,7 @@ exports.usuario = function(id, callback) {
 };
 
 exports.usuario = function(login, senha, callback) {
-    mysql.query("SELECT * FROM Usuario WHERE Login = ?", login, function(err, usr) {
+    mysql.query("SELECT * FROM Usuario WHERE Login = ? LIMIT 1", login, function(err, usr) {
         if (err) {
             var response = {
                 response: 'login_fail',
@@ -40,7 +47,8 @@ exports.usuario = function(login, senha, callback) {
                     if (err) {
                         response = {
                             response: 'login_fail',
-                            message: 'Houve um erro ao comparar a criptografia.'
+                            message: 'Houve um erro ao comparar a criptografia.',
+                            error: err
                         }
                     }
 
@@ -64,7 +72,7 @@ exports.usuario = function(login, senha, callback) {
     }); // close mysql.query
 };
 
-exports.list    = function(callback) {
+exports.list = function(callback) {
     mysql.query("SELECT * FROM Usuario", function(err, usr) {
         if (err) {
             callback({error: err});
@@ -93,9 +101,17 @@ exports.save    = function(nome, email, login, sexo, senha, callback) {
                 } else {
                     mysql.query("SELECT * FROM Usuario WHERE ID = ?", res.insertId, function(error, usr) {
                         if (error) {
-                            callback({error: error});
+                            callback({
+                                response: 'query_fail',
+                                message: 'Houve um erro ao realizar a consulta.',
+                                error: error
+                            });
                         } else {
-                            callback(usr);
+                            callback({
+                                response: 'query_ok',
+                                message: 'Usuário inserido com sucesso!',
+                                usuario: usr[0]
+                            });
                         } // close if error
                     }); // close mysql.query
                 } // close if err
@@ -116,27 +132,25 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
             };
 
             mysql.query("UPDATE Usuario SET ? WHERE ID = " + id, usuario, function(err, res) {
-                var response = {
-                    response: 'update_fail',
-                    message: 'Não foi possível modificar o usuário.',
-                    error: err
-                }
-
                 if (err) {
-                    callback(response);
+                    callback({
+                        response: 'query_fail',
+                        message: 'Não foi possível modificar o usuário.',
+                        error: err
+                    });
                 } else {
                     mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(error, usr) {
                         var response = {};
 
                         if (error) {
                             response = {
-                                response: 'update_fail',
+                                response: 'query_fail',
                                 message: 'Não foi possível modificar o usuário.',
                                 error: error
                             }
                         } else {
                             response = {
-                                response: 'update_ok',
+                                response: 'query_ok',
                                 message: 'Usuário alterado com sucesso!',
                                 usuario: usr[0]
                             }

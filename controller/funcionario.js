@@ -2,7 +2,7 @@ var mysql  = require('../db_config.js');
 var bcrypt = require('bcryptjs');
 
 exports.funcionario = function(id, callback) {
-    mysql.query("SELECT * FROM Funcionario WHERE ID = ?", id, function(err, usr) {
+    mysql.query("SELECT * FROM Funcionario WHERE ID = ?", id, function(err, fnc) {
         var response = {};
 
         if (err) {
@@ -12,16 +12,16 @@ exports.funcionario = function(id, callback) {
                 error: err
             };
         } else {
-            if (usr == null || typeof usr[0] == 'undefined') {
+            if (fnc == null || typeof fnc[0] == 'undefined') {
                 response = {
-                    response: 'query_ok',
+                    response: 'query_fail',
                     message: 'Nenhum usuário encontrado!'
                 };
             } else {
                 response = {
                     response: 'query_ok',
                     message: 'Funcionário encontrado com sucesso!',
-                    usuario: usr[0]
+                    usuario: fnc[0]
                 };
             }
         }
@@ -31,17 +31,15 @@ exports.funcionario = function(id, callback) {
 };
 
 exports.list = function(callback) {
-    mysql.query("SELECT * FROM Funcionario", function(err, usr) {
+    mysql.query("SELECT * FROM Funcionario", function(err, fnc) {
         if (err) {
-            var response = {
+            callback({
                 response: 'query_fail',
                 message: 'Houve um erro ao realizar a consulta.',
                 error: err
-            };
-
-            callback(response);
+            });
         } else {
-            callback(usr);
+            callback(fnc);
         } // close if err
     }); // close mysql.query
 };
@@ -49,9 +47,13 @@ exports.list = function(callback) {
 exports.save = function(funcionario, callback) {
     mysql.query("INSERT INTO Funcionario SET ?", funcionario, function(err, res) {
         if (err) {
-            callback({error: err});
+            callback({
+                response: 'query_fail',
+                message: 'Houve um erro ao inserir o funcionário.',
+                error: err
+            });
         } else {
-            mysql.query("SELECT * FROM Funcionario WHERE ID = ?", res.insertId, function(error, usr) {
+            mysql.query("SELECT * FROM Funcionario WHERE ID = ?", res.insertId, function(error, fnc) {
                 if (error) {
                     callback({
                         response: 'query_fail',
@@ -59,7 +61,11 @@ exports.save = function(funcionario, callback) {
                         error: err
                     });
                 } else {
-                    callback(usr[0]);
+                    callback({
+                        response: 'query_ok',
+                        message: 'Funcionário inserido com sucesso!',
+                        usuario: fnc[0]
+                    });
                 } // close if error
             }); // close mysql.query
         } // close if err
@@ -75,15 +81,19 @@ exports.update  = function(id, funcionario, callback) {
                 error: err
             });
         } else {
-            mysql.query("SELECT * FROM Funcionario WHERE ID = ?", id, function(error, usr) {
+            mysql.query("SELECT * FROM Funcionario WHERE ID = ?", id, function(error, fnc) {
                 if (error) {
                     callback({
-                        response: 'query_ok',
+                        response: 'query_fail',
                         message: 'Houve um erro ao realizar a consulta.',
                         error: error
                     });
                 } else {
-                    callback(usr[0]);
+                    callback({
+                        response: 'query_ok',
+                        message: 'Funcionário alterado com sucesso!',
+                        usuario: fnc[0]
+                    });
                 } // close if error
             }); // close mysql.query
         } // close if err
@@ -101,7 +111,7 @@ exports.delete  = function(id, callback) {
         } else {
             callback({
                 response: 'query_ok',
-                message: 'Usuário excluído com sucesso!'
+                message: 'Funcionário excluído com sucesso!'
             }); // close callback
         } // close if err
     }); // mysql.query
