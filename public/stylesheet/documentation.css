@@ -8,14 +8,24 @@ p {
     text-indent: 40px;
 }
 
-p > a {
+p > a, td > a {
     color: #7dc48a;
     text-decoration: none;
 }
 
-p > a:hover {
+p > a:hover, td > a:hover {
     color: #19882C;
     text-decoration: none;
+}
+
+thead tr {
+    background-color: #dadada;
+    border: 1px solid #c6c6c6;
+    color: #353535;;
+}
+
+thead tr th, tbody tr td {
+    border: 1px solid #c6c6c6;
 }
 
 code {

@@ -22,5 +22,11 @@ Se preferir usar o nodemon ao invés do clássico node, utilize esta linha de co
 ```
 nodemon appp.js
 ```
+Caso queira trabalhar com a porta 80, deve ser alteradas as linhas para e iniciar seu gerenciador de arquivos NodeJS com privilégios de administrador.
+```
+# app.js
+res.header('Access-Control-Allow-Origin', '127.0.0.1:80'); // Limita acesso somente para IP local interno
+app.set('port', (process.env.PORT || 80)); // Define a porta local para aplicação
+```
 
 Lembrando que, você deve ter instalado o MongoDB e alterar o endereço de acesso no arquivo `db_config.js`.
