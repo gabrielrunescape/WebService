@@ -54,34 +54,50 @@ block content
                                 td
                                     a(class='label label-success' href='get') GET
                                 td Busca todos os usuários e exibe em um JSON
-                                td #[a(href='usuarios/get') /usuarios]
+                                td #[a(href='#get') /usuarios]
 
                             tr
                                 td
                                     a(class='label label-warning' href='post') POST
                                 td Realiza autenticação através de login e senha
-                                td #[a(href='usuarios/get') /usuarios/:login/:senha]
+                                td #[a(href='#post') /usuarios/:login/:senha]
                             tr
                                 td
                                     a(class='label label-warning' href='post') POST
                                 td Cria um novo usuário
-                                td #[a(href='usuarios/post') /usuarios]
+                                td #[a(href='#post') /usuarios]
 
                             tr
                                 td
                                     a(class='label label-primary' href='put') PUT
                                 td Altera um usuário através da ID parametrada
-                                td #[a(href='usuarios/put') /usuarios]
+                                td #[a(href='#put') /usuarios]
                             tr
                                 td
                                     a(class='label label-danger' href='delete') DELETE
                                 td Apaga um usuário através da ID
-                                td #[a(href='usuarios/delete') /usuarios/:id]
+                                td #[a(href='#delete') /usuarios/:id]
 
                 h2(class="sub-header sub-doc-header") Utilização
                 p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
                 p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
                 p Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.
+                br
+
+                h2(id="get" class="sub-header sub-doc-header") GET
+                p Envia uma requisição de acesso para obter informações sobre o usuário para que o mesmo possa obter as informações de um determinado usuário ou de vários usuários através do JSON.
+                br
+
+                h2(id="post" class="sub-header sub-doc-header") POST
+                p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                br
+
+                h2(id="put" class="sub-header sub-doc-header") PUT
+                p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                br
+
+                h2(id="delete" class="sub-header sub-doc-header") DELETE
+                p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
                 br
 
     block rodape
