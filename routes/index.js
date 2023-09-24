@@ -1,9 +1,10 @@
-var express = require('express');
+import express from 'express';
+
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
     res.header('Content-Type', 'text/html; charset=utf-8');
     res.render('index', { title: 'WebServive - API' });
 });
 
-module.exports = router;
+export default router;
