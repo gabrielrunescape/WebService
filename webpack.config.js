@@ -9,6 +9,7 @@ const {
 module.exports = {
     mode: NODE_ENV,
     target: 'node',
+    watch: NODE_ENV === 'development',
     entry: {
         index: './app.js',
     },

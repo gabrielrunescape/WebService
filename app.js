@@ -1,5 +1,8 @@
-import path from 'path';
+import engine from 'express-engine-jsx';
 import express from 'express';
+import favicon from 'serve-favicon';
+import path from 'path';
+
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,15 +34,9 @@ var allowCors = (req, res, next) => {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'jsx');
+app.engine('jsx', engine);
 
-/*// Bootstrap e JQuery
-app.use('/javascript', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
-app.use('/javascript', express.static(__dirname + '/node_modules/jquery/dist'));
-app.use('/stylesheet', express.static(__dirname + '/node_modules/bootstrap/dist/css'));*/
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(allowCors);
 /*app.use(logger('dev'));
 app.use(cookieParser());
@@ -48,8 +45,8 @@ app.use(bodyParser.urlencoded({ extended: true }));*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define as rotas da aplicação
-app.use('/', routes);
-/*app.use('/usuarios', usuarios);
+/*app.use('/', routes);
+app.use('/usuarios', usuarios);
 app.use('/funcionarios', funcionarios);
 app.use('/documentation', documentation);*/
 
@@ -60,5 +57,18 @@ app.listen(app.get('port'), function(){
 	console.log('Servidor iniciado na porta ' + app.get('port'));
 });
 
+app.get('/', (req, res) => {
+	res.locals.title = 'REST API';
+	res.render('index', {});
+});
+
+app.get('/express_backend', (req, res) => { 
+	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
+});
+
+app.get('*', (req, res) => {
+	res.locals.title = 'REST API - Página não encontrada';
+	res.render('404', {});
+});
 
 export default app;

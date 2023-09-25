@@ -6,14 +6,15 @@
   "private": true,
   "description": "API para teste",
   "main": "app.js",
-  "type": "module",
   "keywords": [
     "api",
     "teste"
   ],
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server --mode development",
+    "start:dev": "NODE_ENV=development webpack",
+    "css-build": "node-sass --omit-source-map-url public/style.scss public/styles.css"
   },
   "devDependencies": {
     "@babel/core": "^7.22.20",
@@ -30,6 +31,10 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "bulma": "^0.9.4",
+    "express": "^4.18.2",
+    "express-engine-jsx": "^3.6.1",
+    "node-sass": "^9.0.0",
+    "serve-favicon": "^2.5.0"
   }
 }
