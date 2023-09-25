@@ -1,6 +1,5 @@
 import engine from 'express-engine-jsx';
 import express from 'express';
-import favicon from 'serve-favicon';
 import path from 'path';
 
 import { fileURLToPath } from 'url';
@@ -8,18 +7,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//import { Request, Response } from 'express';
-
 /*var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');*/
 
 /*var usuarios	  = require('./routes/usuarios');
-var funcionarios  = require('./routes/funcionarios');
-var documentation = require('./routes/documentation');*/
+var funcionarios  = require('./routes/funcionarios');*/
 
-import routes from './routes/index.js';
+import index from './routes/index.js';
+import documentation from './routes/documentation.js';
 
 const app = express();
 
@@ -45,10 +42,10 @@ app.use(bodyParser.urlencoded({ extended: true }));*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define as rotas da aplicação
-/*app.use('/', routes);
-app.use('/usuarios', usuarios);
-app.use('/funcionarios', funcionarios);
-app.use('/documentation', documentation);*/
+app.use('/', index);
+app.use('/documentation', documentation);
+/*app.use('/usuarios', usuarios);
+app.use('/funcionarios', funcionarios);*/
 
 // Porta da aplicação
 app.set('port', (process.env.PORT || 3000));
@@ -57,17 +54,12 @@ app.listen(app.get('port'), function(){
 	console.log('Servidor iniciado na porta ' + app.get('port'));
 });
 
-app.get('/', (req, res) => {
-	res.locals.title = 'REST API';
-	res.render('index', {});
-});
-
 app.get('/express_backend', (req, res) => { 
 	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
 app.get('*', (req, res) => {
-	res.locals.title = 'REST API - Página não encontrada';
+	res.locals.title = 'REST API - Página não encontrada!';
 	res.render('404', {});
 });
 

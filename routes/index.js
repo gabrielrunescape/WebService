@@ -4,7 +4,8 @@ var router = express.Router();
 
 router.get('/', (req, res, next) => {
     res.header('Content-Type', 'text/html; charset=utf-8');
-    res.render('index', { title: 'WebServive - API' });
+	res.locals.title = 'WebService - REST API';
+    res.render('index', {});
 });
 
 export default router;

@@ -1,14 +1,31 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const documentation = express.Router();
 
-router.get('/', function(req, res) {
+documentation.get('/', function(req, res) {
     res.header('Content-Type', 'text/html; charset=utf-8');
-    res.render('./documentation/index', { title: 'WebServive - Documentação' });
+
+	res.locals.title = 'WebService - Documentação';
+    res.locals.location = 'documentatioin';
+
+    res.render('./documentation/index', {});
 });
 
-router.get('/usuarios', function(req, res) {
+documentation.get('/methods', function(req, res) {
     res.header('Content-Type', 'text/html; charset=utf-8');
-    res.render('./documentation/usuarios', { title: 'WebServive - Documentação' });
+
+	res.locals.title = 'WebService - Metódos';
+    res.locals.location = 'methods';
+
+    res.render('./documentation/method', {});
 });
 
-module.exports = router;
+documentation.get('/pages', function(req, res) {
+    res.header('Content-Type', 'text/html; charset=utf-8');
+
+	res.locals.title = 'WebService - Páginas';
+    res.locals.location = 'pages';
+
+    res.render('./documentation/page', {});
+});
+
+export default documentation;

@@ -8,24 +8,26 @@
     </head>
 
     <body>
-        <div className='navbar has-background-grey-lighter' role='navigation'>
-            <div className='navbar-brand'>
-                <a href='/' className='navbar-item'>WebService - API</a>
-            </div>
+        <div className='navbar is-dark' role='navigation'>
+            <div className="container">
+                <div className='navbar-brand'>
+                    <h3 className="title is-3"><a href='/' className='navbar-item has-text-white'>WebService - API</a></h3>
+                </div>
 
-            <div className='navbar-end'>
-                <div className='navbar-item'>
-                    <div className='buttons'>
-                        <a className='button is-primary'>
-                            Qual é
-                        </a>
+                <div className='navbar-end'>
+                    <div className='navbar-item'>
+                        <div className='buttons'>
+                            <a className='button is-primary' href="/documentation">
+                                Documentação
+                            </a>
 
-                        <a className='button is-light'>
-                            Fala aí
-                        </a>
+                            <a className='button is-light'>
+                                Fala aí
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
 
         {children}
