@@ -1,11 +1,11 @@
-var mysql = require('mysql');
+import mysql from 'mysql2';
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
     password: 'gabriel435',
     port: '3306',
-    database: 'WebPonto_develop'
+    database: 'WebPonto_Develop'
 });
 
-module.exports = connection;
+export default connection;

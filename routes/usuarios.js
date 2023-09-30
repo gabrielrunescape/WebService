@@ -1,60 +1,113 @@
-var express   = require('express');
-var router    = express.Router();
-var validator = require('validator');
+import express from 'express';
+import validator from 'validator';
 
-var usuarioController = require('../controller/usuario.js');
+const usuarios = express.Router();
 
-router.get('/', function(req, res, next) {
-    usuarioController.list(function(resp) {
+import {getUsuarioByLogin, getUsuarioByID, listAll, saveUsuario, updateUsuario, deleteUsuario} from '../controller/usuario.js';
+
+usuarios.get('/', (req, res) => {
+    listAll((resp) => {
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });
 
-router.post('/:login/:senha', function(req, res, next) {
-    var login = validator.trim(validator.escape(req.params.login));
-    var senha = validator.trim(validator.escape(req.params.senha));
-
-    usuarioController.usuario(login, senha, function(resp) {
+usuarios.get('/:id', (req, res, next) => {
+    getUsuarioByID(req.headers.id, (resp) => {
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
 });
 
-router.post('/', function(req, res, next) {
-    var nome  = validator.trim(validator.escape(req.param('nome')));
-    var sexo  = validator.trim(validator.escape(req.param('sexo')));
-    var login = validator.trim(validator.escape(req.param('login')));
-    var senha = validator.trim(validator.escape(req.param('senha')));
-    var email = validator.trim(validator.escape(req.param('email')));
+usuarios.post('/:login/:senha', (req, res) => {
+    try {
+        const login = validator.trim(validator.escape(req.headers.login));
+        const senha = validator.trim(validator.escape(req.headers.senha));
+    
+        getUsuarioByLogin(login, senha, function(resp) {
+            res.header('Content-Type', 'application/json; charset=utf-8');
+            res.json(resp);
+        });
+    } catch (err) {
+        console.error(err)
 
-    usuarioController.save(nome, email, login, sexo, senha, function(resp) {
         res.header('Content-Type', 'application/json; charset=utf-8');
-        res.json(resp);
-    });
+        res.json({
+            response: 'params_fail',
+            message: 'Houve um erro ao realizar a consulta.',
+            error: err.message
+        });
+    }
 });
 
-router.put('/', function(req, res, next) {
-    var id    = validator.trim(validator.escape(req.param('id') + ''));
-    var nome  = validator.trim(validator.escape(req.param('nome')));
-    var sexo  = validator.trim(validator.escape(req.param('sexo')));
-    var login = validator.trim(validator.escape(req.param('login')));
-    var senha = validator.trim(validator.escape(req.param('senha')));
-    var email = validator.trim(validator.escape(req.param('email')));
+usuarios.post('/', function(req, res) {
+    try {
+        const email = validator.trim(validator.escape(req.headers.email));
+        const login = validator.trim(validator.escape(req.headers.login));
+        const nome  = validator.trim(validator.escape(req.headers.nome));
+        const senha = validator.trim(validator.escape(req.headers.senha));
+        const sexo  = validator.trim(validator.escape(req.headers.sexo));
+    
+        saveUsuario(nome, email, login, sexo, senha, function(resp) {
+            res.header('Content-Type', 'application/json; charset=utf-8');
+            res.json(resp);
+        });
+    } catch (err) {
+        console.error(err)
 
-    usuarioController.update(id, nome, email, login, sexo, senha, function(resp) {
         res.header('Content-Type', 'application/json; charset=utf-8');
-        res.json(resp);
-    });
+        res.json({
+            response: 'params_fail',
+            message: 'Houve um erro ao enviar parametros passados.',
+            error: err.message
+        });
+    }
 });
 
-router.delete('/:id', function(req, res, next) {
-    var id = validator.trim(validator.escape(req.param('id') + ''));
+usuarios.put('/', (req, res) => {    
+    try {
+        var email = validator.trim(validator.escape(req.headers.email));
+        var id = validator.trim(validator.escape(req.headers.id));
+        var login = validator.trim(validator.escape(req.headers.login));
+        var nome  = validator.trim(validator.escape(req.headers.nome));
+        var senha = validator.trim(validator.escape(req.headers.senha));
+        var sexo  = validator.trim(validator.escape(req.headers.sexo));
 
-    usuarioController.delete(id, function(resp) {
+        updateUsuario(id, nome, email, login, sexo, senha, (resp) => {
+            res.header('Content-Type', 'application/json; charset=utf-8');
+            res.json(resp);
+        });
+    } catch (err) {
+        console.error(err)
+
         res.header('Content-Type', 'application/json; charset=utf-8');
-        res.json(resp);
-    });
+        res.json({
+            response: 'params_fail',
+            message: 'Houve um erro ao enviar parametros passados.',
+            error: err.message
+        });
+    }
 });
 
-module.exports = router;
+usuarios.delete('/:id', (req, res) => {
+    try {
+        var id = validator.trim(validator.escape(req.headers.id));
+        
+
+        deleteUsuario(id, (resp) => {
+            res.header('Content-Type', 'application/json; charset=utf-8');
+            res.json(resp);
+        });
+    } catch (err) {
+        console.error(err)
+
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.json({
+            response: 'params_fail',
+            message: 'Houve um erro ao enviar parametros passados.',
+            error: err.message
+        });
+    }
+});
+
+export default usuarios;

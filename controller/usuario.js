@@ -1,8 +1,9 @@
-var mysql  = require('../db_config.js');
-var bcrypt = require('bcryptjs');
+import bcrypt from 'bcrypt';
+import util from 'util';
+import mysql from '../db_config.js';
 
-exports.usuario = function(id, callback) {
-    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(err, usr) {
+export const getUsuarioByID = (id, callback) => {
+    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, (err, usr) => {
         if (err) {
             callback({
                 response: 'query_fail',
@@ -22,8 +23,18 @@ exports.usuario = function(id, callback) {
     }); // close mysql.query
 };
 
-exports.usuario = function(login, senha, callback) {
-    mysql.query("SELECT * FROM Usuario WHERE Login = ? LIMIT 1", login, function(err, usr) {
+export const listAll = (callback) => {
+    mysql.execute("SELECT * FROM Usuario", (err, usr) => {
+        if (err) {
+            callback({error: err});
+        } else {
+            callback(usr);
+        }
+    });
+};
+
+export const getUsuarioByLogin = (login, senha, callback) => {
+    mysql.query("SELECT * FROM Usuario WHERE Login = ? LIMIT 1", login, (err, usr) => {
         if (err) {
             var response = {
                 response: 'login_fail',
@@ -41,7 +52,7 @@ exports.usuario = function(login, senha, callback) {
 
                 callback(response);
             } else {
-                bcrypt.compare(senha, usr[0].Senha, function(err, hash) {
+                bcrypt.compare(senha, usr[0].Senha, (err, hash) => {
                     var response = {};
 
                     if (err) {
@@ -72,21 +83,10 @@ exports.usuario = function(login, senha, callback) {
     }); // close mysql.query
 };
 
-exports.list = function(callback) {
-    mysql.query("SELECT * FROM Usuario", function(err, usr) {
-        if (err) {
-            callback({error: err});
-        } else {
-            callback(usr);
-        } // close if err
-    }); // close mysql.query
-};
-
-exports.save    = function(nome, email, login, sexo, senha, callback) {
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(senha, salt, function(err, hash) {
+export const saveUsuario = (nome, email, login, sexo, senha, callback) => {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(senha, salt, (err, hash) => {
             var usuario = {
-                ID: 'NULL',
                 Nome: nome,
                 Login: login,
                 Sexo: sexo,
@@ -95,11 +95,21 @@ exports.save    = function(nome, email, login, sexo, senha, callback) {
                 Data_Criacao: new Date()
             };
 
-            mysql.query("INSERT INTO Usuario SET ?", usuario, function(err, res) {
+            mysql.query("INSERT INTO Usuario SET ?", usuario, (err, res) =>{
                 if (err) {
-                    callback({error: err});
+                    const duplicate = util.format("Duplicate entry '%s' for key 'Usuario.Login_UNIQUE'", login);
+
+                    if (err.sqlMessage == duplicate) {
+                        callback({
+                            response: 'query_fail',
+                            message: 'Houve um erro de duplicidade de dados no campo login.',
+                            error: err.code
+                        });
+                    } else {
+                        callback({error: err});
+                    }
                 } else {
-                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", res.insertId, function(error, usr) {
+                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", res.insertId, (error, usr) => {
                         if (error) {
                             callback({
                                 response: 'query_fail',
@@ -120,9 +130,9 @@ exports.save    = function(nome, email, login, sexo, senha, callback) {
     }); // Close bcrypt.genSalt
 };
 
-exports.update  = function(id, nome, email, login, sexo, senha, callback) {
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(senha, salt, function(err, hash) {
+export const updateUsuario = (id, nome, email, login, sexo, senha, callback) => {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(senha, salt, (err, hash) => {
             var usuario = {
                 Nome: nome,
                 Login: login,
@@ -131,7 +141,7 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
                 Email: email
             };
 
-            mysql.query("UPDATE Usuario SET ? WHERE ID = " + id, usuario, function(err, res) {
+            mysql.query("UPDATE Usuario SET ? WHERE ID = " + id, usuario, (err, res) =>{
                 if (err) {
                     callback({
                         response: 'query_fail',
@@ -139,7 +149,7 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
                         error: err
                     });
                 } else {
-                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, function(error, usr) {
+                    mysql.query("SELECT * FROM Usuario WHERE ID = ?", id, (error, usr) => {
                         var response = {};
 
                         if (error) {
@@ -149,10 +159,18 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
                                 error: error
                             }
                         } else {
-                            response = {
-                                response: 'query_ok',
-                                message: 'Usuário alterado com sucesso!',
-                                usuario: usr[0]
+                            if(usr[0] == null) {
+                                response = {
+                                    response: 'query_fail',
+                                    message: 'Usuário não encontrado!',
+                                    usuario: usr[0]
+                                }
+                            } else {
+                                response = {
+                                    response: 'query_ok',
+                                    message: 'Usuário alterado com sucesso!',
+                                    usuario: usr[0]
+                                }
                             }
                         }
 
@@ -164,8 +182,8 @@ exports.update  = function(id, nome, email, login, sexo, senha, callback) {
     }); // close bcrypt.genSalt
 };
 
-exports.delete  = function(id, callback) {
-    mysql.query("DELETE FROM Usuario WHERE ID = ?", id, function(err, res) {
+export const deleteUsuario = (id, callback) => {
+    mysql.query("DELETE FROM Usuario WHERE ID = ?", id, (err, res) => {
         var response = {};
 
         if (err) {
@@ -175,10 +193,16 @@ exports.delete  = function(id, callback) {
                 error: err
             }
         } else {
-            response = {
-                response: 'delete_ok',
-                message: 'Usuário excluído com sucesso!',
-                error: res
+            if (res.affectedRows == 0) {
+                response = {
+                    response: 'delete_fail',
+                    message: 'Nenhum usuário foi excluído!'
+                }
+            } else {
+                response = {
+                    response: 'delete_ok',
+                    message: 'Usuário excluído com sucesso!'
+                }
             }
         }
 

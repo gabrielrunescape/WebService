@@ -17,6 +17,7 @@ var funcionarios  = require('./routes/funcionarios');*/
 
 import index from './routes/index.js';
 import documentation from './routes/documentation.js';
+import usuarios from './routes/usuarios.js';
 
 const app = express();
 
@@ -44,18 +45,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Define as rotas da aplicação
 app.use('/', index);
 app.use('/documentation', documentation);
-/*app.use('/usuarios', usuarios);
-app.use('/funcionarios', funcionarios);*/
+app.use('/usuarios', usuarios);
+//app.use('/funcionarios', funcionarios);
 
 // Porta da aplicação
 app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function(){
 	console.log('Servidor iniciado na porta ' + app.get('port'));
-});
-
-app.get('/express_backend', (req, res) => { 
-	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
 app.get('*', (req, res) => {
