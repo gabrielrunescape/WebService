@@ -13,7 +13,7 @@ usuarios.get('/', (req, res) => {
 });
 
 usuarios.get('/:id', (req, res, next) => {
-    getUsuarioByID(req.headers.id, (resp) => {
+    getUsuarioByID(req.body.id, (resp) => {
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.json(resp);
     });
@@ -21,8 +21,8 @@ usuarios.get('/:id', (req, res, next) => {
 
 usuarios.post('/:login/:senha', (req, res) => {
     try {
-        const login = validator.trim(validator.escape(req.headers.login));
-        const senha = validator.trim(validator.escape(req.headers.senha));
+        const login = validator.trim(validator.escape(req.body.login));
+        const senha = validator.trim(validator.escape(req.body.senha));
     
         getUsuarioByLogin(login, senha, function(resp) {
             res.header('Content-Type', 'application/json; charset=utf-8');
@@ -40,13 +40,13 @@ usuarios.post('/:login/:senha', (req, res) => {
     }
 });
 
-usuarios.post('/', function(req, res) {
+usuarios.post('/', (req, res) => {
     try {
-        const email = validator.trim(validator.escape(req.headers.email));
-        const login = validator.trim(validator.escape(req.headers.login));
-        const nome  = validator.trim(validator.escape(req.headers.nome));
-        const senha = validator.trim(validator.escape(req.headers.senha));
-        const sexo  = validator.trim(validator.escape(req.headers.sexo));
+        const email = validator.trim(validator.escape(req.body.email));
+        const login = validator.trim(validator.escape(req.body.login));
+        const nome  = validator.trim(validator.escape(req.body.nome));
+        const senha = validator.trim(validator.escape(req.body.senha));
+        const sexo  = validator.trim(validator.escape(req.body.sexo));
     
         saveUsuario(nome, email, login, sexo, senha, function(resp) {
             res.header('Content-Type', 'application/json; charset=utf-8');
@@ -66,12 +66,12 @@ usuarios.post('/', function(req, res) {
 
 usuarios.put('/', (req, res) => {    
     try {
-        var email = validator.trim(validator.escape(req.headers.email));
-        var id = validator.trim(validator.escape(req.headers.id));
-        var login = validator.trim(validator.escape(req.headers.login));
-        var nome  = validator.trim(validator.escape(req.headers.nome));
-        var senha = validator.trim(validator.escape(req.headers.senha));
-        var sexo  = validator.trim(validator.escape(req.headers.sexo));
+        var email = validator.trim(validator.escape(req.body.email));
+        var id = validator.trim(validator.escape(req.body.id));
+        var login = validator.trim(validator.escape(req.body.login));
+        var nome  = validator.trim(validator.escape(req.body.nome));
+        var senha = validator.trim(validator.escape(req.body.senha));
+        var sexo  = validator.trim(validator.escape(req.body.sexo));
 
         updateUsuario(id, nome, email, login, sexo, senha, (resp) => {
             res.header('Content-Type', 'application/json; charset=utf-8');
@@ -91,7 +91,7 @@ usuarios.put('/', (req, res) => {
 
 usuarios.delete('/:id', (req, res) => {
     try {
-        var id = validator.trim(validator.escape(req.headers.id));
+        var id = validator.trim(validator.escape(req.body.id));
         
 
         deleteUsuario(id, (resp) => {

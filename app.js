@@ -36,10 +36,10 @@ app.set('view engine', 'jsx');
 app.engine('jsx', engine);
 
 app.use(allowCors);
+app.use(express.json());
+app.use(express.urlencoded({extended: true }));
 /*app.use(logger('dev'));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));*/
+app.use(cookieParser());*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define as rotas da aplicação

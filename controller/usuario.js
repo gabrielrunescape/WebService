@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv-safe';
+import jwt from 'jsonwebtoken';
 import util from 'util';
+
 import mysql from '../db_config.js';
 
 export const getUsuarioByID = (id, callback) => {
@@ -33,7 +36,7 @@ export const listAll = (callback) => {
     });
 };
 
-export const getUsuarioByLogin = (login, senha, callback) => {
+export const getUsuarioByLogin = (login, senha, callback, isAuth = false) => {
     mysql.query("SELECT * FROM Usuario WHERE Login = ? LIMIT 1", login, (err, usr) => {
         if (err) {
             var response = {
@@ -64,10 +67,17 @@ export const getUsuarioByLogin = (login, senha, callback) => {
                     }
 
                     if (hash == true) {
-                        response = {
-                            response: 'login_ok',
-                            message: 'Usuário encontrado com sucesso!',
-                            usuario: usr[0]
+                        if (isAuth) {
+                            response = {
+                                auth: true,
+                                token: usr[0].Token
+                            }
+                        } else {
+                            response = {
+                                response: 'login_ok',
+                                message: 'Usuário encontrado com sucesso!',
+                                usuario: usr[0]
+                            }
                         }
                     } else {
                         response = {
@@ -89,6 +99,7 @@ export const saveUsuario = (nome, email, login, sexo, senha, callback) => {
             var usuario = {
                 Nome: nome,
                 Login: login,
+                Token: createToken(login),
                 Sexo: sexo,
                 Senha: hash,
                 Email: email,
@@ -209,3 +220,21 @@ export const deleteUsuario = (id, callback) => {
         callback(response);
     }); // mysql.query
 };
+
+const createToken = params => {
+	dotenv.config();
+
+	const token = jwt.sign({params}, process.env.SECRET, {
+		expiresIn: '7 days'
+	});
+
+	return token;
+}
+
+const verifyToken = token => {
+	try {
+		const decoded = jwt.verify(token, process.env.SECRET)
+	} catch (err) {
+		console.error(err);
+	}
+}

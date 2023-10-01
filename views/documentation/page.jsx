@@ -18,6 +18,12 @@ import Layout from './layout';
                                 Durante o desenvolvimento da API, a consulta de cadastros de usuários, sempre é necessárias 
                                 quando se trata de aplicações em que envolvam a autenticação do usuário. Entretando, deve-se 
                                 tomar cuidado com quais informações são repassadas durante a consulta.
+
+                                <br />
+
+                                Vale lembrar que os parametros passados sempre são feitos através do <i>body</i> em 
+                                formato <strong>x-www-urlencoded</strong> de maneira a evitar injeções por SQL. Além de, a
+                                coluna Token ao ser criado um usuário novo tem validade de 7 dias.
                             </p>
 
                             <p>
